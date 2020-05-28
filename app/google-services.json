@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "926700345284",
+    "firebase_url": "https://assesment2-5a7a0.firebaseio.com",
+    "project_id": "assesment2-5a7a0",
+    "storage_bucket": "assesment2-5a7a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926700345284:android:0c8358222bc4a47c7db691",
+        "android_client_info": {
+          "package_name": "com.example.assesment2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926700345284-fvc58ic7a3borv0gic47tb48m6pschg9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcKodch6dIB2TaiNWz-A12t9FjlUrZta8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926700345284-fvc58ic7a3borv0gic47tb48m6pschg9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
