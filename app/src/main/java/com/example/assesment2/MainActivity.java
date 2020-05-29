@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(MainActivity.this,"Error Occurred!",Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
