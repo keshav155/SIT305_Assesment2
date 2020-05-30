@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,23 +23,31 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
-    private ArrayList<String> al;
-    private ArrayAdapter arrayAdapter;
+    cards cards_data[];
+    arrayAdapter arrayAdapter;
     private int i;
     String userSex;
     String oppositeUserSex;
     Button logOutButton;
     FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    String currentUId;
+    DatabaseReference usersDb;
+    ListView listView;
+    List<cards> rowItems;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        usersDb = FirebaseDatabase.getInstance().getReference().child("Users");
         mFirebaseAuth=FirebaseAuth.getInstance();
+        currentUId = mFirebaseAuth.getCurrentUser().getUid();
 
         logOutButton = findViewById(R.id.logout);
 
@@ -54,9 +63,10 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         checkUserSex();
-        al = new ArrayList<>();
 
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.item, R.id.helloText, al );
+        rowItems = new ArrayList<cards>();
+
+        arrayAdapter = new arrayAdapter(this, R.layout.item,  rowItems );
 
         SwipeFlingAdapterView flingContainer = findViewById(R.id.frame);
 
@@ -66,20 +76,23 @@ public class HomeActivity extends AppCompatActivity {
             public void removeFirstObjectInAdapter() {
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!");
-                al.remove(0);
+                rowItems.remove(0);
                 arrayAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onLeftCardExit(Object dataObject) {
-                //Do something on the left!
-                //You also have access to the original object.
-                //If you want to use it just cast it (String) dataObject
+                cards obj = (cards) dataObject;
+                String userId = obj.getUserId();
+                usersDb.child(oppositeUserSex).child(userId).child("connections").child("nope").child(currentUId).setValue(true);
                 Toast.makeText(HomeActivity.this, "Left!",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
+                cards obj = (cards) dataObject;
+                String userId = obj.getUserId();
+                usersDb.child(oppositeUserSex).child(userId).child("connections").child("yep").child(currentUId).setValue(true);
                 Toast.makeText(HomeActivity.this, "Right!",Toast.LENGTH_SHORT).show();
             }
 
@@ -160,8 +173,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                if(dataSnapshot.exists()){
-                    al.add(dataSnapshot.child("name").getValue().toString());
+                if(dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUId) && !dataSnapshot.child("connections").child("yep").hasChild(currentUId)){
+                    cards item = new cards(dataSnapshot.getKey(),dataSnapshot.child("name").getValue().toString());
+                    rowItems.add(item);
                     arrayAdapter.notifyDataSetChanged();
                 }
             }
