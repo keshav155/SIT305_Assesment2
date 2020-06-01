@@ -28,7 +28,7 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
     cards cards_data[];
-    arrayAdapter arrayAdapter;
+    private arrayAdapter arrayAdapter;
     private int i;
     String userSex;
     String oppositeUserSex;
@@ -49,7 +49,6 @@ public class HomeActivity extends AppCompatActivity {
         usersDb = FirebaseDatabase.getInstance().getReference().child("Users");
         mFirebaseAuth=FirebaseAuth.getInstance();
         currentUId = mFirebaseAuth.getCurrentUser().getUid();
-
         logOutButton = findViewById(R.id.logout);
 
         logOutButton.setOnClickListener(new View.OnClickListener() {
@@ -189,14 +188,18 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
     public void getOppositeSexUsers(){
+
         DatabaseReference oppositeSexDb = FirebaseDatabase.getInstance().getReference().child("Users").child(oppositeUserSex);
         oppositeSexDb.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                if(dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUId) && !dataSnapshot.child("connections").child("yep").hasChild(currentUId)){
-                    cards item = new cards(dataSnapshot.getKey(),dataSnapshot.child("name").getValue().toString());
-                    rowItems.add(item);
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.exists() && !(dataSnapshot.child("connections").child("denied").hasChild(currentUId)) && !(dataSnapshot.child("connections").child("approved").hasChild(currentUId))){
+                    String profileImageUrl = "default";
+                    if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")){
+                        profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
+                    }
+                    cards Item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl);
+                    rowItems.add(Item);
                     arrayAdapter.notifyDataSetChanged();
                 }
             }

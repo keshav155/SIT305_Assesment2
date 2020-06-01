@@ -20,6 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
     EditText emailIDEditText, passwordEditText, nameEditText;
     RadioGroup genderSelectionRadioGroup;
@@ -74,8 +77,11 @@ public class MainActivity extends AppCompatActivity {
                             }
                             else {
                                 String userID = mFirebaseAuth.getCurrentUser().getUid();
-                                DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(radioButton.getText().toString()).child(userID).child("name");
-                                currentUserDb.setValue(enteredName);
+                                DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(radioButton.getText().toString()).child(userID);
+                                Map userInfo = new HashMap<>();
+                                userInfo.put("name",enteredName);
+                                userInfo.put("profileImageUrl","default");
+                                currentUserDb.updateChildren(userInfo);
                                 startActivity(new Intent(MainActivity.this,HomeActivity.class));
                             }
                         }
