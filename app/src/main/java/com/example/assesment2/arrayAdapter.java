@@ -28,13 +28,13 @@ public class arrayAdapter extends ArrayAdapter<cards>{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item, parent, false);
         }
 
-        TextView name = (TextView) convertView.findViewById(R.id.userName);
-        ImageView image = (ImageView) convertView.findViewById(R.id.userImage);
+        TextView name =  convertView.findViewById(R.id.userName);
+        ImageView image =  convertView.findViewById(R.id.userImage);
 
         name.setText(card_item.getName());
         switch(card_item.getProfileImageUrl()){
             case "default":
-                Glide.with(convertView.getContext()).load(R.mipmap.ic_launcher).into(image);
+                Glide.with(convertView.getContext()).load("https://i.stack.imgur.com/l60Hf.png").into(image);
                 break;
             default:
                 Glide.clear(image);

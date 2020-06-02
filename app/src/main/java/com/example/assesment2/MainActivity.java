@@ -77,10 +77,11 @@ public class MainActivity extends AppCompatActivity {
                             }
                             else {
                                 String userID = mFirebaseAuth.getCurrentUser().getUid();
-                                DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(radioButton.getText().toString()).child(userID);
+                                DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userID);
                                 Map userInfo = new HashMap<>();
                                 userInfo.put("name",enteredName);
                                 userInfo.put("profileImageUrl","default");
+                                userInfo.put("sex",radioButton.getText().toString());
                                 currentUserDb.updateChildren(userInfo);
                                 startActivity(new Intent(MainActivity.this,HomeActivity.class));
                             }

@@ -42,9 +42,9 @@ public class SettingsActivity extends AppCompatActivity {
     ImageView profileImage;
 
     FirebaseAuth mAuth;
-    DatabaseReference customerDatabase;
+    DatabaseReference userDatabase;
 
-    String userId, name, phone, profileImageUrl;
+    String userId, name, phone, profileImageUrl,userSex;
 
     Uri resultUri;
 
@@ -53,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        String userSex = getIntent().getExtras().getString("userSex");
+
         nameField = findViewById(R.id.name);
         phoneNoField = findViewById(R.id.phoneNo);
         profileImage = findViewById(R.id.profileImage);
@@ -63,7 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
         assert userSex != null;
-        customerDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userSex).child(userId);
+        userDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
         getUserInfo();
         profileImage.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +91,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void getUserInfo() {
-        customerDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        userDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists() && dataSnapshot.getChildrenCount()>0){
@@ -103,6 +103,9 @@ public class SettingsActivity extends AppCompatActivity {
                     if(map.get("phone")!=null){
                         phone = map.get("phone").toString();
                         phoneNoField.setText(phone);
+                    }
+                    if(map.get("sex")!=null){
+                       userSex = map.get("sex").toString();
                     }
                     Glide.clear(profileImage);
                     if(map.get("profileImageUrl")!=null){
@@ -138,7 +141,7 @@ public class SettingsActivity extends AppCompatActivity {
         Map userInfo = new HashMap();
         userInfo.put("name",name);
         userInfo.put("phone",phone);
-        customerDatabase.updateChildren(userInfo);
+        userDatabase.updateChildren(userInfo);
         if(resultUri != null){
 
             Bitmap bitmap = null;
@@ -161,26 +164,16 @@ public class SettingsActivity extends AppCompatActivity {
             });
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Map newImage = new HashMap();
-                            newImage.put("profileImageUrl", uri.toString());
-                            customerDatabase.updateChildren(newImage);
-                            finish();
-                            return;
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            finish();
-                            return;
-                        }
-                    });
+                public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                    Uri downloadUrl = taskSnapshot.getUploadSessionUri();
+
+                    Map newImage = new HashMap();
+                    newImage.put("profileImageUrl", downloadUrl.toString());
+                    userDatabase.updateChildren(newImage);
+                    finish();
+                    return;
                 }
             });
-
         }else{
             finish();
         }

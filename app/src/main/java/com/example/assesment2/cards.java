@@ -3,7 +3,7 @@ package com.example.assesment2;
 public class cards {
     private String userId;
     private String name;
-    private String profileImageUrl = "https://i.stack.imgur.com/l60Hf.png";
+    private String profileImageUrl = "default";
     public cards (String userId,String name,String profileImageUrl){
         this.userId = userId;
         this.name = name;
