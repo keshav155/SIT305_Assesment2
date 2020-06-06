@@ -1,4 +1,4 @@
-package com.example.assesment2;
+package com.example.assesment2.Cards;
 
 
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.assesment2.Cards.cards;
+import com.example.assesment2.R;
 
 import java.util.List;
 

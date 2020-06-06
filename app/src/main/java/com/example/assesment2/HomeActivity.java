@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.assesment2.Cards.arrayAdapter;
+import com.example.assesment2.Cards.cards;
+import com.example.assesment2.Matches.MatchesActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -28,7 +30,7 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
     cards cards_data[];
-    private arrayAdapter arrayAdapter;
+    private com.example.assesment2.Cards.arrayAdapter arrayAdapter;
     private int i;
     Button logOutButton;
     FirebaseAuth mFirebaseAuth;
@@ -194,6 +196,12 @@ public class HomeActivity extends AppCompatActivity {
     public void goToSettings(View view) {
         Intent proceedToSettings = new Intent(HomeActivity.this, SettingsActivity.class);
         startActivity(proceedToSettings);
+        return;
+    }
+
+    public void goToMatches(View view) {
+        Intent proceedToMatches = new Intent(HomeActivity.this, MatchesActivity.class);
+        startActivity(proceedToMatches);
         return;
     }
 }
