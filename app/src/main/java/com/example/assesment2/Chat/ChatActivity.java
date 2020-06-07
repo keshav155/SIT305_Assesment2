@@ -1,6 +1,7 @@
 package com.example.assesment2.Chat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,7 @@ import com.example.assesment2.Chat.ChatAdapter;
 import com.example.assesment2.Chat.ChatObject;
 import com.example.assesment2.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,14 +44,14 @@ public class ChatActivity extends AppCompatActivity {
 
         currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         matchID = getIntent().getExtras().getString("matchID");
-        databaseUser = FirebaseDatabase.getInstance().getReference().child("User").child(currentUserID).child("connections").child("matches").child(matchID).child("chatId");
+        databaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID).child("connections").child("matches").child(matchID).child("ChatId");
         databaseChat = FirebaseDatabase.getInstance().getReference().child("Chat");
 
         getChatId();
 
         chatRecyclerView = findViewById(R.id.recyclerViewOfChat);
         chatRecyclerView.setNestedScrollingEnabled(false);
-        chatRecyclerView.setHasFixedSize(true);
+        chatRecyclerView.setHasFixedSize(false);
         chatLayoutManager = new LinearLayoutManager(ChatActivity.this);
         chatRecyclerView.setLayoutManager(chatLayoutManager);
         chatAdapter = new ChatAdapter(getDataSetChat(),ChatActivity.this);
@@ -88,7 +90,57 @@ public class ChatActivity extends AppCompatActivity {
                 if(dataSnapshot.exists()){
                     chatID = dataSnapshot.getValue().toString();
                     databaseChat = databaseChat.child(chatID);
+                    getChatMessage();
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getChatMessage() {
+        databaseChat.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    if(dataSnapshot.exists()){
+                        String message = null;
+                        String createdByUser = null;
+
+                        if(dataSnapshot.child("text").getValue()!=null){
+                            message = dataSnapshot.child("text").getValue().toString();
+                        }
+                        if(dataSnapshot.child("createdByUser").getValue()!=null){
+                            createdByUser = dataSnapshot.child("createdByUser").getValue().toString();
+                        }
+
+                        if(message!=null && createdByUser!=null){
+                            Boolean currentUserBoolean = false;
+                            if(createdByUser.equals(currentUserID)){
+                                currentUserBoolean = true;
+                            }
+                            ChatObject newMessage = new ChatObject(message,currentUserBoolean);
+                            resultsChat.add(newMessage);
+                            chatAdapter.notifyDataSetChanged();
+                        }
+                    }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
             }
 
             @Override
