@@ -36,7 +36,6 @@ public class ChatActivity extends AppCompatActivity {
     Button sendButton;
     DatabaseReference databaseUser, databaseChat;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +92,6 @@ public class ChatActivity extends AppCompatActivity {
                     getChatMessage();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 

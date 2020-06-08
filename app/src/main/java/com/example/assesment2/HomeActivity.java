@@ -62,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        checkUserSex();
+        checkUserRole();
 
         rowItems = new ArrayList<cards>();
 
@@ -136,26 +136,26 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
-    String userSex;
-    String oppositeUserSex;
-    private void checkUserSex() {
+    String userRole;
+    String oppositeUserRole;
+    private void checkUserRole() {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference userDb = usersDb.child(user.getUid());
         userDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()){
-                        if(dataSnapshot.child("sex").getValue()!=null){
-                            userSex = dataSnapshot.child("sex").getValue().toString();
-                            switch (userSex){
-                                case "Male":
-                                    oppositeUserSex = "Female";
+                        if(dataSnapshot.child("role").getValue()!=null){
+                            userRole = dataSnapshot.child("role").getValue().toString();
+                            switch (userRole){
+                                case "Job Seeker":
+                                    oppositeUserRole = "Employer";
                                     break;
-                                case "Female":
-                                    oppositeUserSex = "Male";
+                                case "Employer":
+                                    oppositeUserRole = "Job Seeker";
                                     break;
                             }
-                            getOppositeSexUsers();
+                            getOppositeRoleUsers();
                         }
                     }
             }
@@ -165,13 +165,13 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
-    public void getOppositeSexUsers(){
+    public void getOppositeRoleUsers(){
 
         usersDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.child("sex").getValue()!=null){
-                    if (dataSnapshot.exists() && !(dataSnapshot.child("connections").child("nope").hasChild(currentUId)) && !(dataSnapshot.child("connections").child("yep").hasChild(currentUId))&& dataSnapshot.child("sex").getValue().toString().equals(oppositeUserSex)){
+                if(dataSnapshot.child("role").getValue()!=null){
+                    if (dataSnapshot.exists() && !(dataSnapshot.child("connections").child("nope").hasChild(currentUId)) && !(dataSnapshot.child("connections").child("yep").hasChild(currentUId))&& dataSnapshot.child("role").getValue().toString().equals(oppositeUserRole)){
                         String profileImageUrl = "default";
                         if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")){
                             profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();

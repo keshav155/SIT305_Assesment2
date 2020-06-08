@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     EditText emailIDEditText, passwordEditText, nameEditText;
-    RadioGroup genderSelectionRadioGroup;
+    RadioGroup roleSelectionRadioButton;
     Button signUpButton;
     TextView signInMessageTextView;
     FirebaseAuth mFirebaseAuth;
@@ -41,12 +41,12 @@ public class MainActivity extends AppCompatActivity {
         nameEditText = findViewById(R.id.name);
         signUpButton = findViewById(R.id.signUpButton);
         signInMessageTextView = findViewById(R.id.signInMessage);
-        genderSelectionRadioGroup = findViewById(R.id.genderSelection);
+        roleSelectionRadioButton = findViewById(R.id.roleSelection);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int selection = genderSelectionRadioGroup.getCheckedRadioButtonId();
+                int selection = roleSelectionRadioButton.getCheckedRadioButtonId();
 
                 final RadioButton radioButton = findViewById(selection);
                 if(radioButton.getText()==null)
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                                 Map userInfo = new HashMap<>();
                                 userInfo.put("name",enteredName);
                                 userInfo.put("profileImageUrl","default");
-                                userInfo.put("sex",radioButton.getText().toString());
+                                userInfo.put("role",radioButton.getText().toString());
                                 currentUserDb.updateChildren(userInfo);
                                 startActivity(new Intent(MainActivity.this,HomeActivity.class));
                             }

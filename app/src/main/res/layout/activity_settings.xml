@@ -7,13 +7,13 @@
     tools:context=".SettingsActivity"
     android:orientation="vertical"
     android:padding="30sp">
+
     <ImageView
+        android:id="@+id/profileImage"
         android:layout_width="150sp"
         android:layout_height="150sp"
-        android:id="@+id/profileImage"
-        android:src="@mipmap/ic_launcher"
         android:layout_marginBottom="20sp"
-        />
+        app:srcCompat="@drawable/profilepic"  />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
