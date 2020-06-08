@@ -15,9 +15,9 @@
         <activity android:name=".Matches.MatchesActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".ChooseLoginOrSignUpActivity">
+        <activity android:name=".Authentication.LoginActivity" />
+        <activity android:name=".Authentication.MainActivity" />
+        <activity android:name=".Authentication.ChooseLoginOrSignUpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

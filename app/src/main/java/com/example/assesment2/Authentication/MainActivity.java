@@ -1,4 +1,4 @@
-package com.example.assesment2;
+package com.example.assesment2.Authentication;
 
 
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.assesment2.HomeActivity;
+import com.example.assesment2.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                                 userInfo.put("profileImageUrl","default");
                                 userInfo.put("role",radioButton.getText().toString());
                                 currentUserDb.updateChildren(userInfo);
-                                startActivity(new Intent(MainActivity.this,HomeActivity.class));
+                                startActivity(new Intent(MainActivity.this, HomeActivity.class));
                             }
                         }
                     });
