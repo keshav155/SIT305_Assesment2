@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
+    //defining variables
     RecyclerView chatRecyclerView;
     RecyclerView.Adapter chatAdapter;
     RecyclerView.LayoutManager chatLayoutManager;
@@ -40,7 +41,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
+        //setting up runtime variables
         currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         matchID = getIntent().getExtras().getString("matchID");
         databaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID).child("connections").child("matches").child(matchID).child("ChatId");
@@ -66,7 +67,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-
+    //method to send message
     private void sendMessage() {
         String sendMessageText = sendEditText.getText().toString();
 
@@ -81,7 +82,7 @@ public class ChatActivity extends AppCompatActivity {
         }
         sendEditText.setText(null);
     }
-
+    //method to get chatID from firebase database
     private void getChatId(){
         databaseUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -98,7 +99,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-
+    //method to get chat messages from opposite user from firebase database
     private void getChatMessage() {
         databaseChat.addChildEventListener(new ChildEventListener() {
             @Override

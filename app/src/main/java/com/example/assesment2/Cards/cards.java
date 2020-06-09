@@ -1,15 +1,18 @@
 package com.example.assesment2.Cards;
 
+//Object class for cards
 public class cards {
     private String userId;
     private String name;
     private String profileImageUrl = "default";
+    //Default constructor
     public cards (String userId,String name,String profileImageUrl){
         this.userId = userId;
         this.name = name;
         this.profileImageUrl = profileImageUrl;
     }
 
+    //Get and Set methods
     public String getUserId(){
         return userId;
     }

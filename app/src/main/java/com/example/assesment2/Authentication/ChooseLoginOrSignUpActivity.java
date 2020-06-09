@@ -9,6 +9,8 @@ import android.widget.Button;
 
 import com.example.assesment2.R;
 
+// This class is just used for deciding if users want to login/signup
+// Its just used for organizing things a bit more and isnt really a main feature of the app
 public class ChooseLoginOrSignUpActivity extends AppCompatActivity {
 
     Button goToSignUpButton, goToSignInButton;

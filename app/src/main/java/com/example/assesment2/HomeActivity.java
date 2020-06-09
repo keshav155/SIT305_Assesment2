@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
+    // Defining all variables
     cards cards_data[];
     private com.example.assesment2.Cards.arrayAdapter arrayAdapter;
     private int i;
@@ -47,6 +48,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Defining runtime variables
         usersDb = FirebaseDatabase.getInstance().getReference().child("Users");
         mFirebaseAuth=FirebaseAuth.getInstance();
         currentUId = mFirebaseAuth.getCurrentUser().getUid();
@@ -65,6 +67,7 @@ public class HomeActivity extends AppCompatActivity {
 
         checkUserRole();
 
+        //Setting up adapter for viewing cards
         rowItems = new ArrayList<cards>();
 
         arrayAdapter = new arrayAdapter(this, R.layout.item,  rowItems );
@@ -116,7 +119,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
-
+    //Function to display match to user if required
     private void isConnectionMatch(String userId) {
         DatabaseReference currentUserConnectionsDb = usersDb.child(currentUId).child("connections").child("yep").child(userId);
         currentUserConnectionsDb.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -137,6 +140,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+    //Function to get user's role from database and set the opposite role accordingly
     String userRole;
     String oppositeUserRole;
     private void checkUserRole() {
@@ -166,6 +170,8 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+    //Function to get user of opposite role , if you are job seekers, you will be able
+    //to see employer cards only and vice versa
     public void getOppositeRoleUsers(){
 
         usersDb.addChildEventListener(new ChildEventListener() {
@@ -197,7 +203,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
-
+    // functions for transitioning between screens
     public void goToSettings(View view) {
         Intent proceedToSettings = new Intent(HomeActivity.this, SettingsActivity.class);
         startActivity(proceedToSettings);

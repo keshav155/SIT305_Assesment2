@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.assesment2.R;
 
 import java.util.List;
-
+//Adapter class for chat messages recyclerview
 public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolder> {
     List <ChatObject> chatObjectList;
     Context context;

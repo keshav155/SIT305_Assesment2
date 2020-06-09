@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    //defining variables
     EditText emailIDEditText, passwordEditText, nameEditText;
     RadioGroup roleSelectionRadioButton;
     Button signUpButton;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //setting up run-time variables
         mFirebaseAuth = FirebaseAuth.getInstance();
         emailIDEditText = findViewById(R.id.email);
         passwordEditText = findViewById(R.id.password);
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         signInMessageTextView = findViewById(R.id.signInMessage);
         roleSelectionRadioButton = findViewById(R.id.roleSelection);
 
+        //used for signing up and consists of all the error control to make sure a valid signup occurs
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //used for proceeding to home page once a signup is successful
         signInMessageTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

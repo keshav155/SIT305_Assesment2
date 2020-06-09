@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SettingsActivity extends AppCompatActivity {
-
+    //defining variables
     EditText nameField, phoneNoField;
 
     Button back, confirm;
@@ -53,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
+        //setting runtime variables
         nameField = findViewById(R.id.name);
         phoneNoField = findViewById(R.id.phoneNo);
         profileImage = findViewById(R.id.profileImage);
@@ -90,6 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    //Used for getting users current information
     private void getUserInfo() {
         userDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -134,6 +135,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    //Used for saving all of the information user has updated
     private void saveUserInformation() {
         name = nameField.getText().toString();
         phone = phoneNoField.getText().toString();
@@ -178,7 +180,6 @@ public class SettingsActivity extends AppCompatActivity {
             finish();
         }
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

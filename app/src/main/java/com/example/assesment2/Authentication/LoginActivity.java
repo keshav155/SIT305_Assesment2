@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
+    //defining variables
     EditText emailIDEditText, passwordEditText;
     Button signInButton;
     TextView signUpMessage;
@@ -31,12 +32,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //setting up runtime variables
         mFirebaseAuth = FirebaseAuth.getInstance();
         emailIDEditText = findViewById(R.id.email);
         passwordEditText = findViewById(R.id.password);
         signInButton = findViewById(R.id.signInButton);
         signUpMessage = findViewById(R.id.signUpMessage);
 
+        //used for displaying message once user has logged in or is yet to
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -51,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         };
-
+        //used for logging in up and consists of all the error control to make sure a valid login occurs
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //used for going to sign up screen
         signUpMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
