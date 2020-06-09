@@ -18,7 +18,7 @@
 -Implemented recyclerView and Adapters to show matches between 2 parties
 
 
-##3 June 8th - June 11th (submission deadline)
+## 3 June 8th - June 11th (submission deadline)
 
 -Refactored code again to use more readable and meaninful variables
 -Set up chatting feature in a new screen and research on how to implement some sub-features regarding it
